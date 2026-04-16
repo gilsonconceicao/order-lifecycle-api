@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { IUserRepository } from "./IUserRepository";
-import { BaseRepository } from "@/shared/repositories";
+import { BaseRepository } from "@/infrastructure/repositories";
 import { User } from "../user.entity";
 
 export class UserRepository extends BaseRepository<User> implements IUserRepository {
