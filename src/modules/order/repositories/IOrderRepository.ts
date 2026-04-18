@@ -13,4 +13,5 @@ export interface IOrderRepository extends IBaseRepository<Order> {
   findReadyOrders(): Promise<Order[]>;
   findAllPaginated(params: OrderListPaginatedDto): Promise<IPaginationList<OrderResponseDto>>;
   findOrderById(id:string): Promise<OrderResponseDto | null>;
+  findPendingOrdersByMinuteAfterCreated(time: number): Promise<Order[]>;
 }

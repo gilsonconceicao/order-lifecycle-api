@@ -4,7 +4,6 @@ import { AppError } from "../../shared/errors/Error.helper";
 import { IOrderRepository } from "../order/repositories/IOrderRepository";
 import { OrderStatus } from "../../shared/enums/OrderStatusts";
 import { IPaginationList } from "../../shared/interfaces/IPaginationList";
-import { Category } from "../../shared/enums/Category";
 import { ProductListPaginatedDto } from "./dtos/ProductListPaginatedDto";
 import { IUserContext } from "../../shared/interfaces/IUserAuthenticated";
 import { ProductCreateDto } from "./dtos/ProductCreteDto";

@@ -1,4 +1,4 @@
-import { FindOneOptions, FindOptionsWhere, IsNull, Repository } from "typeorm";
+import { FindOneOptions, FindOptionsWhere, IsNull, LessThan, Repository } from "typeorm";
 import { IOrderRepository } from "./IOrderRepository";
 import { OrderStatus } from "../../../shared/enums/OrderStatusts";
 import { IPaginationList } from "../../../shared/interfaces/IPaginationList";
@@ -15,6 +15,21 @@ export class OrderRepository
   constructor(repository: Repository<Order>) {
     super(repository);
   }
+  
+  async findPendingOrdersByMinuteAfterCreated(min: number): Promise<Order[]> {
+    const now = new Date(Date.now() - min * 60 * 1000)
+
+    const orders = await this.repository.find({
+      where: {
+        deletedAt: IsNull(),
+        status: OrderStatus.PENDING, 
+        createdAt: LessThan(now)
+      }
+    }); 
+
+    return orders; 
+  }
+
   async findOrderById(id: string): Promise<OrderResponseDto | null> {
     const order = await this.repository.findOne({
       where: { id },
