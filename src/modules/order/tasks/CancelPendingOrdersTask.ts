@@ -5,7 +5,7 @@ export class CancelPendingOrdersTask {
     constructor(private repository: OrderRepository) {}
 
     async execute (): Promise<void> {
-        var orders = await this.repository.findPendingOrdersByMinuteAfterCreated(10); 
+        var orders = await this.repository.findPendingOrdersByMinuteAfterCreated(20); 
 
         if(orders.length > 0) {
              for (const order of orders) { 
