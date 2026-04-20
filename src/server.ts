@@ -10,8 +10,12 @@ const PORT = process.env.PORT || 3000;
 AppDataSource.initialize()
   .then(async () => {
     console.log("Database is connected");
-    startJobs();
-    await verifyNodemailerCheck()
+    if (process.env.ENABLE_CRON_JOBS) {
+      startJobs();
+    }
+    if (process.env.ENABLE_CHECK_SMTP_SERVICE) {
+      await verifyNodemailerCheck()
+    }
 
     app.listen(PORT, () => {
       console.log(`Server is running on PORT: ${PORT}`);
