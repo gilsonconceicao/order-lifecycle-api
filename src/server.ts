@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import { app } from "./app";
 import { AppDataSource } from "./infrastructure/database/data-source";
-import { startJobs } from "./shared/jobs";
-import { verifyNodemailerCheck } from "./shared/utils";
+import { setupCronJobs } from "./shared/jobs";
+import { checkSmtpConnection } from "./shared/utils";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -10,11 +10,13 @@ const PORT = process.env.PORT || 3000;
 AppDataSource.initialize()
   .then(async () => {
     console.log("Database is connected");
-    if (process.env.ENABLE_CRON_JOBS) {
-      startJobs();
+    
+    if (process.env?.ENABLE_CRON_JOBS === 'true') {
+      setupCronJobs();
     }
-    if (process.env.ENABLE_CHECK_SMTP_SERVICE) {
-      await verifyNodemailerCheck()
+
+    if (process.env?.ENABLE_CHECK_SMTP_CONNECTION === 'true') {
+      await checkSmtpConnection()
     }
 
     app.listen(PORT, () => {

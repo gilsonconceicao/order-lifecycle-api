@@ -6,7 +6,7 @@ export const getBooleanFilter = (filter: string) => {
     : String(filter).toLowerCase() === "true";
 };
 
-export const verifyNodemailerCheck = async () => {
+export const checkSmtpConnection = async () => {
   try {
     await transporterSmtp.verify();
     console.log("SMTP: Server is ready to take our messages");
