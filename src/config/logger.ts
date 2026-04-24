@@ -31,4 +31,8 @@ export const logger = pino({
     }),
     err: pino.stdSerializers.err,
   },
+  redact: {
+    paths: ["req.headers.authorization", "password", "token"],
+    censor: "***",
+  },
 });

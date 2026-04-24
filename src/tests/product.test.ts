@@ -1,4 +1,5 @@
 import { app } from "@/app";
+import { logger } from "@/config";
 import { ProductCreateDto } from "@/modules/product/dtos/ProductCreteDto";
 import { Category } from "@/shared/enums/Category";
 import { generateValidToken } from "@/shared/utils";
@@ -21,14 +22,14 @@ describe("Products", () => {
 
     const productCreatedId = response.body?.id;
 
-    console.log(`TEST - Product: produto criado com sucesso ${productCreatedId}`);
+    logger.info(`TEST - Product: produto criado com sucesso ${productCreatedId}`);
     
     await request(app)
     .delete(`/api/products/${productCreatedId}`)
     .set("Authorization", `Bearer ${token}`)
     .send({});
     
-    console.log(`TEST - Product: produto excluído com sucesso ${productCreatedId}`);
+    logger.info(`TEST - Product: produto excluído com sucesso ${productCreatedId}`);
     expect(response.status).toBe(201);
   });
 

@@ -1,3 +1,4 @@
+import { logger } from "@/config"
 import { AppError } from "@/shared/errors/Error.helper"
 import { Request, Response, NextFunction } from "express"
 
@@ -17,7 +18,7 @@ export function errorMiddleware(
     })
   }
 
-  console.error(err)
+  logger.error(err)
 
   return res.status(500).json({
     error: {

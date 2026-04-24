@@ -3,13 +3,14 @@ import { app } from "./app";
 import { AppDataSource } from "./infrastructure/database/data-source";
 import { setupCronJobs } from "./shared/jobs";
 import { checkSmtpConnection } from "./shared/utils";
+import { logger } from "./config";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 AppDataSource.initialize()
   .then(async () => {
-    console.log("Database is connected");
+    logger.info("Database is connected")
     
     if (process.env?.ENABLE_CRON_JOBS === 'true') {
       setupCronJobs();
@@ -20,7 +21,9 @@ AppDataSource.initialize()
     }
 
     app.listen(PORT, () => {
-      console.log(`Server is running on PORT: ${PORT}`);
+      logger.info(`Server is running on PORT: ${PORT}`);
     });
   })
-  .catch(console.error);
+  .catch((error) => {
+    logger.error(`${error}`)
+  });

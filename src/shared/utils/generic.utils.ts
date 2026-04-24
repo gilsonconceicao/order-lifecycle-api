@@ -1,3 +1,4 @@
+import { logger } from "@/config";
 import { transporterSmtp } from "@/integrations/smtp/setting";
 
 export const getBooleanFilter = (filter: string) => {
@@ -9,8 +10,8 @@ export const getBooleanFilter = (filter: string) => {
 export const checkSmtpConnection = async () => {
   try {
     await transporterSmtp.verify();
-    console.log("SMTP: Server is ready to take our messages");
+    logger.info("SMTP: Server is ready to take our messages");
   } catch (err) {
-    console.error("SMTP: Verification failed:", err);
+    logger.error(`SMTP: Verification failed: ${err}`);
   }
 };

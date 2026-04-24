@@ -1,5 +1,6 @@
 import { OrderStatus } from "@/shared/enums/OrderStatusts";
 import { OrderRepository } from "../repositories/OrderRepository";
+import { logger } from "@/config";
 
 export class CancelPendingOrdersTask {
     constructor(private repository: OrderRepository) {}
@@ -13,6 +14,6 @@ export class CancelPendingOrdersTask {
             }
         }
 
-        console.log(`[CRON] Cancelled ${orders.length} pending orders`);
+        logger.info(`[CRON] Cancelled ${orders.length} pending orders`);
     }
 }
