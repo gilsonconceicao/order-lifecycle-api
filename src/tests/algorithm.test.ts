@@ -1,7 +1,7 @@
 import { OrderService } from "@/modules/order/order.service";
 
 describe("Optimize Assignment", () => {
-  it("sem entregadores disponíveis", async () => {
+  it("no delivery men available", async () => {
     const orderRepository = {
       findReadyOrders: async () => [
         {
@@ -25,7 +25,7 @@ describe("Optimize Assignment", () => {
     expect(result.unassigned.length).toBe(1);
   });
 
-  it("com entregador disponível", async () => {
+  it("with delivery men available", async () => {
     const orderRepository = {
       findReadyOrders: async () => [
         {

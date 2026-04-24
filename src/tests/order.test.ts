@@ -3,7 +3,7 @@ import { generateValidToken } from "@/shared/utils";
 import request from "supertest";
 
 describe("Order Status", () => {
-  it("deve retornar a listagem atual autorizada de pedidos", async () => {
+  it("should return the authorized and updated order list", async () => {
     const token = generateValidToken();
     const response = await request(app)
       .get("/api/orders")
@@ -12,7 +12,7 @@ describe("Order Status", () => {
     expect(response.status).toBe(200);
   });
 
-  it("deve bloquear atualização de status do pedido", async () => {
+  it("should block update order status ", async () => {
     const token = generateValidToken();
 
     const response = await request(app)
