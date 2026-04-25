@@ -2,7 +2,7 @@ import pino from "pino";
 
 const isEnvProduction = process.env.NODE_ENV === "production";
 
-export const logger = pino({
+const logger = pino({
   level: process.env.LOG_LEVEL || "info",
   timestamp: !isEnvProduction
     ? () =>
@@ -36,3 +36,9 @@ export const logger = pino({
     censor: "***",
   },
 });
+
+const order_logger = logger.child({ context: "order" });
+export {
+  logger, 
+  order_logger
+}

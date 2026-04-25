@@ -6,6 +6,7 @@ import {
 import { AppError } from "../../shared/errors/Error.helper";
 import { Order } from "./order.entity";
 import { Product } from "../product/product.entity";
+import { order_logger } from "@/config";
 
 export const validateOrderStatusUpdate = (
   order: Order,
@@ -13,6 +14,7 @@ export const validateOrderStatusUpdate = (
 ) => {
   const allowedTransitions = orderStatusTransition[order.status];
   if (!isOrderStatus(newStatus)) {
+    order_logger.error(`[UpdateStatus] - status ${String(newStatus)} is not exists`);
     throw new AppError(
       "ORDER_STATUS_INVALID",
       `O status do pedido informado (${String(newStatus)}) não existe.`,
@@ -24,6 +26,7 @@ export const validateOrderStatusUpdate = (
   }
 
   if (order.status === newStatus) {
+    order_logger.error(`[UpdateStatus] - status are the same`);
     throw new AppError(
       "ORDER_STATUS_ALREADY_EXISTS",
       `O pedido já está com o status '${newStatus}'.`,
@@ -32,6 +35,7 @@ export const validateOrderStatusUpdate = (
   }
 
   if (!allowedTransitions.includes(newStatus)) {
+    order_logger.error(`[UpdateStatus] - invalid status tranistion from ${order.status} to ${newStatus}`);
     throw new AppError(
       "INVALID_STATUS_TRANSITION",
       `Não é possível alterar o status de '${order.status}' para '${newStatus}'.`,
@@ -47,6 +51,8 @@ export const validateOrderStatusUpdate = (
     newStatus === OrderStatus.DELIVERING &&
     order.deliveryPersonId === null
   ) {
+    order_logger.error(`[UpdateStatus] - not possible change status to ${String(newStatus)} when there are no delivery men available`);
+
     throw new AppError(
       "ORDER_STATUS_INVALID",
       `Não é possível alterar o status do pedido para ${String(newStatus)} sem um entregador atribuído.`,
@@ -67,6 +73,7 @@ export const validateOrderCreate = (
   );
 
   if (productNotFoundsIds.length > 0) {
+    order_logger.error(`[Create] - not possible create product. ${productNotFoundsIds.length} product(s) not found`);
     throw new AppError(
       "ORDER_INVALID",
       `Não foi possível criar o pedido. ${productNotFoundsIds.length} produto(s) não encontrado(s): ${productNotFoundsIds.join(", ")}`,
@@ -77,6 +84,8 @@ export const validateOrderCreate = (
 
   const inactiveProducts = products.filter((p) => !p.isAvailable);
   if (inactiveProducts.length > 0) {
+    order_logger.error(`[Create] - not possible create product. ${productNotFoundsIds.length} product(s) not found`);
+    
     throw new AppError(
       "UNAVAILABLE_PRODUCT",
       "Um ou mais produtos não estão disponiveis",

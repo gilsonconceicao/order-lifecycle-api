@@ -18,6 +18,7 @@ import { IOrderItemRepository } from "../orderItem/repositories/IOrderItemReposi
 import { OrderItem } from "../orderItem/orderItem.entity";
 import { OrderCreteDto } from "./dtos/OrderCreteDto";
 import { mapOrderCreateDtoToOrder } from "./mapper/order.mapper";
+import { order_logger } from "@/config";
 
 export class OrderService {
   constructor(
