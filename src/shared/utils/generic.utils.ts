@@ -6,12 +6,3 @@ export const getBooleanFilter = (filter: string) => {
     ? undefined
     : String(filter).toLowerCase() === "true";
 };
-
-export const checkSmtpConnection = async () => {
-  try {
-    await transporterSmtp.verify();
-    logger.info("SMTP: Server is ready to take our messages");
-  } catch (err) {
-    logger.error(`SMTP: Verification failed: ${err}`);
-  }
-};
