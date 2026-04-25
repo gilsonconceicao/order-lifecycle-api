@@ -12,9 +12,6 @@ export function roleMiddleware(role: string) {
     if (String(user.role).toLowerCase() !== role?.toLowerCase()){
       return res.status(403).json({ message: "Usuário não possui permissão suficiente para esse recurso" });
     }
-
     next();
-
   };
-
 }
