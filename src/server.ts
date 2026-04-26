@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { app } from "./app";
 import { AppDataSource } from "./infrastructure/database/data-source";
-import { setupCronJobs } from "./shared/jobs";
+import { setupCronScheduleJobs } from "./shared/jobs";
 import { logger } from "./config";
 
 dotenv.config();
@@ -12,7 +12,7 @@ AppDataSource.initialize()
     logger.info("Database is connected")
     
     if (process.env?.ENABLE_CRON_JOBS === 'true') {
-      setupCronJobs();
+      setupCronScheduleJobs();
     }
 
     app.listen(PORT, () => {
