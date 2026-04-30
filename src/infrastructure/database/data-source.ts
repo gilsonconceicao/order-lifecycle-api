@@ -1,7 +1,7 @@
 import "dotenv/config"
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { env } from "../../config/env"
+import { env } from "../../config/env.setting"
 
 
 export const AppDataSource = new DataSource({
