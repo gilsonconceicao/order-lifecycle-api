@@ -1,5 +1,5 @@
 import { logger } from "@/config";
-import { transporterSmtp } from "@/integrations/smtp/setting";
+import { transporterSmtp } from "@/config/smtp.setting";
 import { AppError } from "@/shared/errors/Error.helper";
 import { Request, Response, NextFunction } from "express";
 

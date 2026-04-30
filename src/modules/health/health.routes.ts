@@ -4,7 +4,6 @@ import { HealthController } from "./health.controller";
 const router = Router();
 const healthController = new HealthController(); 
 
-
 /**
  * @swagger
  * /health:
