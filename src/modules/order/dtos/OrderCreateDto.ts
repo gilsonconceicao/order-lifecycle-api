@@ -1,7 +1,7 @@
 import { OrderItemCreateDto } from "@/modules/orderItem/dtos/OrderItemCreateDto";
 import { OrderStatus } from "@/shared/enums/OrderStatusts";
 
-export class OrderCreteDto {
+export class OrderCreateDto {
   customerName!: string;
   customerPhone!: string;
   deliveryAddress!: string;

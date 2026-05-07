@@ -1,5 +1,5 @@
 import { mapOrderItemCreateDtoToOrderItem } from "@/modules/orderItem/mapper/OrderItem.mapper";
-import { OrderCreteDto } from "../dtos/OrderCreteDto";
+import { OrderCreateDto } from "../dtos/OrderCreateDto";
 import { OrderResponseDto } from "../dtos/OrderResponseDto";
 import { Order } from "../order.entity";
 import { OrderDeliveryResponseDto } from "../dtos/OrderDeliveryResponseDto";
@@ -50,7 +50,7 @@ export function mapOrderResponseToDelivery(order: Order): OrderDeliveryResponseD
   };
 }
 
-export function mapOrderCreateDtoToOrder(dto: OrderCreteDto, totalAmount: number): Partial<Order> {
+export function mapOrderCreateDtoToOrder(dto: OrderCreateDto, totalAmount: number): Partial<Order> {
   return {
     customerName: dto.customerName,
     customerPhone: dto.customerPhone,
