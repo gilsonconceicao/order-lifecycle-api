@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "./auth.service";
+import { UserCreateDto } from "../users/dtos/UserCreateDto";
 
 interface LoginRequest {
   email: string;
@@ -16,7 +17,11 @@ export class AuthController {
    * Autentica um usuario e retorna os tokens
    */
 
-  public async login( req: Request, res: Response, next: NextFunction): Promise<void> {
+  public async login(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const { email, password } = req.body as LoginRequest;
 
@@ -31,11 +36,34 @@ export class AuthController {
   /**
    * Gera um novo access token a partir de um refresh token valido
    */
-  public async refresh(req: Request, res: Response, next: NextFunction): Promise<void> {
+  public async refresh(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const { refreshToken } = req.body as RefreshRequest;
 
       const result = await this.authService.refresh(refreshToken);
+
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Adicionar um novo usuário
+   */
+  public async create(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const model = req.body as UserCreateDto;
+
+      const result = await this.authService.create(model);
 
       res.json(result);
     } catch (error) {
