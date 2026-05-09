@@ -4,6 +4,8 @@ import { UserRepository } from "../users/repositories/UserRepository";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { User } from "../users/user.entity";
+import { authMiddleware, roleMiddleware, validateSchemaMiddleware } from "@/middlewares";
+import { createUserSchema } from "../users/schemas/create.user.schema";
 
 const router = Router();
 
@@ -41,6 +43,49 @@ const authController = new AuthController(authService);
  *         description: Tokens de acesso e refresh
  */
 router.post("/login", authController.login.bind(authController));
+
+/**
+ * @swagger
+ * /auth/create-user:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Cria um novo usuário
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - role
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [admin, viewer]
+ *                 example: admin
+ *                 description: Determina  o nível de permissão do usuário
+ *     responses:
+ *       201:
+ *         description: Usuário criado com sucesso
+ *       400:
+ *         description: Dados inválidos
+ */
+router.post(
+  "/create-user",
+  authMiddleware,
+  roleMiddleware("ADMIN"),
+  validateSchemaMiddleware({ body: createUserSchema }),
+  authController.create.bind(authController),
+);
 
 /**
  * @swagger
