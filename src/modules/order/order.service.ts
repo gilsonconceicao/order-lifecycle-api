@@ -16,7 +16,7 @@ import {
 import { IProductRepository } from "../product/repositories/IProductRepository";
 import { IOrderItemRepository } from "../orderItem/repositories/IOrderItemRepository";
 import { OrderItem } from "../orderItem/orderItem.entity";
-import { OrderCreteDto } from "./dtos/OrderCreteDto";
+import { OrderCreateDto } from "./dtos/OrderCreateDto";
 import { mapOrderCreateDtoToOrder } from "./mapper/order.mapper";
 import { order_logger } from "@/config";
 
@@ -28,7 +28,7 @@ export class OrderService {
     private orderItemRepository: IOrderItemRepository,
   ) {}
 
-  async create(data: OrderCreteDto): Promise<Order> {
+  async create(data: OrderCreateDto): Promise<Order> {
     const items = (data.items ?? []) as OrderItem[];
     const productIds = items?.map((i) => i.productId) ?? [];
     const products = await this.productRepository.findByIds(productIds);

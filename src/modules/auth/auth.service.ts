@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AppError } from "../../shared/errors/Error.helper";
 import { IUserRepository } from "../users/repositories/IUserRepository";
+import { User } from "../users/user.entity";
 
 const accessSecret = process.env.JWT_SECRET!;
 const refreshSecret = process.env.JWT_REFRESH_SECRET!;
@@ -74,6 +75,18 @@ export class AuthService {
       accessToken,
       refreshToken: newRefreshToken,
     };
+  }
+
+  async create(newUser: Partial<User>) {
+    try {
+      const hashedPassword = await bcrypt.hash(newUser.password!, 10);
+      await this.userRepository.create({
+        ...newUser,
+        password: hashedPassword,
+      });
+    } catch (ex) {
+      throw ex;
+    }
   }
 }
 
